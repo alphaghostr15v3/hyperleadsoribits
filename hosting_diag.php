@@ -19,14 +19,18 @@ foreach ($directories as $dir) {
 }
 
 echo "<h2>.htaccess Check</h2>";
-if (file_exists('.htaccess')) {
-    echo ".htaccess exists in current directory.<br>";
-} else {
-    echo "<strong>Warning:</strong> .htaccess NOT found in current directory.<br>";
+foreach (['.htaccess', '../.htaccess', 'public/.htaccess'] as $file) {
+    if (file_exists($file)) {
+        echo "<h3>Content of {$file}:</h3>";
+        echo "<pre>" . htmlspecialchars(file_get_contents($file)) . "</pre>";
+    } else {
+        echo "{$file} does not exist.<br>";
+    }
 }
 
-if (file_exists('../.htaccess')) {
-    echo ".htaccess exists in root directory.<br>";
-} else {
-    echo "<strong>Warning:</strong> .htaccess NOT found in root directory.<br>";
+echo "<h2>Directory Listing</h2>";
+echo "<pre>";
+foreach (scandir('./') as $item) {
+    echo $item . (is_dir($item) ? '/' : '') . "\n";
 }
+echo "</pre>";
