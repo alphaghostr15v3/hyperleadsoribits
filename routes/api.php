@@ -14,15 +14,13 @@ Route::get('/team', [ContentController::class, 'getTeam']);
 Route::post('/leads', [ContentController::class, 'storeLead']);
 
 // Auth routes
-Route::middleware('web')->group(function () {
-    Route::post('/login', [ApiAuthController::class, 'login']);
-    Route::post('/logout', [ApiAuthController::class, 'logout'])->middleware('auth:sanctum');
-    Route::get('/user', [ApiAuthController::class, 'me'])->middleware('auth:sanctum');
-});
+Route::post('/login', [ApiAuthController::class, 'login']);
+Route::post('/logout', [ApiAuthController::class, 'logout'])->middleware('auth:sanctum');
+Route::get('/user', [ApiAuthController::class, 'me'])->middleware('auth:sanctum');
 
 
 // Protected Admin CRUD routes
-Route::middleware(['web', 'auth:sanctum'])->prefix('admin')->group(function () {
+Route::middleware(['auth:sanctum'])->prefix('admin')->group(function () {
     // Services
     Route::post('/services', [ContentController::class, 'storeService']);
     Route::put('/services/{id}', [ContentController::class, 'updateService']);
